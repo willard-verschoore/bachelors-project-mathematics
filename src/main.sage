@@ -85,6 +85,10 @@ def generate_candidates(places, height):
 def find_solutions(places, height):
     canditates = generate_candidates(places, height)
     for [x, y] in Combinations(canditates, 2):
+        ratio = x.derivative() / y.derivative()
+        ratio = K(ratio.factor().value())
+        if not ratio.degree() == 0: continue
+
         determinant = x * y.derivative() - y * x.derivative()
         if determinant == 0: continue
 
