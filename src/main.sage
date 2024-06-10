@@ -68,25 +68,23 @@ class BoundedValues:
         self._permutation = 0
 
 def compute_field_element(values, places):
-    element = 1
-    for value, place in zip(values, places):
-        if value == 0: continue
-        if not place.is_integral(): continue # Infinite valuation.
-        element *= place**int(value / place.degree())
-    return element
+    divisor = sum([value // place.degree() * place for value, place in zip(values, places)])
+    basis = divisor.basis_function_space()
+    if len(basis) == 1: return 1 / basis[0]
 
 def generate_candidates(places, height):
     for values in BoundedValues(height, len(places)):
         for value, place in zip(values, places):
             if value % place.degree() != 0: break
         else:
-            yield compute_field_element(values, places)
+            candidate = compute_field_element(values, places)
+            if candidate is not None:
+                yield candidate
 
 def find_solutions(places, height):
     canditates = generate_candidates(places, height)
     for [x, y] in Combinations(canditates, 2):
         ratio = x.derivative() / y.derivative()
-        ratio = K(ratio.factor().value())
         if not ratio.degree() == 0: continue
 
         determinant = x * y.derivative() - y * x.derivative()
@@ -94,8 +92,6 @@ def find_solutions(places, height):
 
         c_1 = y.derivative() / determinant
         c_2 = -x.derivative() / determinant
-        c_1 = K(c_1.factor().value())
-        c_2 = K(c_2.factor().value())
         if not c_1.degree() == 0 or not c_2.degree() == 0: continue
 
         unit_1 = c_1 * x
@@ -103,29 +99,52 @@ def find_solutions(places, height):
 
         yield unit_1, unit_2
 
-def is_s_unit(element, places):
-    for place in places:
-        value = element.parent().valuation(place)(element)
-        if value == 0: continue
-        if not place.is_integral(): continue # Infinite valuation.
-        element /= place**int(value)
-
-    element = K(element.factor().value())
-    return element.degree() == 0
-
-K.<x> = FunctionField(CC)
-places =  [x, x - 1, 1/x]
+K.<x> = FunctionField(QQbar)
+O = K.maximal_order()
+O_inf = K.maximal_order_infinite()
+places =  [O.ideal(x).place(), O.ideal(x - 1).place(), O_inf.ideal(1/x).place()]
 height = len(places) + K.genus() - 2
 
-print("Complex base field example:")
+print("Algebraic field example:")
 for unit_1, unit_2 in find_solutions(places, height):
     print(f"f = {unit_1}, g = {unit_2}")
 print()
 
 K.<x> = FunctionField(GF(5))
-places =  [x, x + 2, x^2 + x + 1, 1/x]
+O = K.maximal_order()
+O_inf = K.maximal_order_infinite()
+places = [O.ideal(x).place(), O.ideal(x + 2).place(), O.ideal(x^2 + x + 1).place(), O_inf.ideal(1/x).place()]
 height = sum([place.degree() for place in places]) + K.genus() - 2
 
-print("Finite base field example:")
+print("Finite field example:")
 for unit_1, unit_2 in find_solutions(places, height):
     print(f"f = {unit_1}, g = {unit_2}")
+print()
+
+K.<x> = FunctionField(QQbar)
+_.<y> = K[]
+L.<y> = K.extension(y^3 + x^3 * y + x)
+
+places_0 = [place for (place, value) in L(y).divisor().list()]
+places_1 = [place for (place, value) in L(y + 1).divisor().list()]
+places = list(set(places_0 + places_1))
+height = 3
+
+print("Extended algebraic field example:")
+for unit_1, unit_2 in find_solutions(places, height):
+    print(f"f = {unit_1}, g = {unit_2}")
+print()
+
+K.<x> = FunctionField(GF(5))
+_.<y> = K[]
+L.<y> = K.extension(y^3 + x^3 * y + x)
+
+places_0 = [place for (place, value) in L(y).divisor().list()]
+places_1 = [place for (place, value) in L(y + 1).divisor().list()]
+places = list(set(places_0 + places_1))
+height = 3
+
+print("Extended finite field example:")
+for unit_1, unit_2 in find_solutions(places, height):
+    print(f"f = {unit_1}, g = {unit_2}")
+print()
