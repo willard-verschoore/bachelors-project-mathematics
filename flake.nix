@@ -18,6 +18,7 @@
             python3Packages.ipython
             python3Packages.jupyter
             sage
+            texliveFull
           ];
         };
       };

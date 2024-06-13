@@ -1,0 +1,30 @@
+\documentclass[a4paper]{report}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% Bibliography.
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% Title page.
+\usepackage[english]{babel}
+\usepackage{styles/rugscriptie}
+
+\faculty{fse}
+\thesistype{Bachelor's Project Mathematics}
+\title{Solving the S-Unit Equation in Function Fields}
+\author{W.A.~Verschoore de la Houssaije}
+\supervisor{O.~Lorscheid}
+\supervisor{J.S.~M\"{u}ller}
