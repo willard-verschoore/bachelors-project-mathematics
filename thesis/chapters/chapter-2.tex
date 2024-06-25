@@ -167,3 +167,47 @@ There are many interesting results related to Riemann-Roch spaces. For our purpo
 \end{theorem}
 
 The first property corresponds to Lemma 1.4.6 in~\cite{stichtenoth-2009-algebraic-function-fields} and for a proof of the second property we refer the reader to Corollary 1.4.12 in the same book.
+
+\section{Unit Equations}%
+\label{sec:unit-equations}
+
+Our work centres around solving the \(S\)-unit equation on function fields. For a finite set of places \(S \subset \mathbb{P}_{K}\) the set of \(S\)-units is given by
+\[\left\{ f \in K \,\middle|\, f \in \mathcal{O}_{P}^{\times} \text{ for all } P \in \mathbb{P}_{K} \setminus S \right\}.\]\todo{Perhaps this should be a definition.}
+In other words, an \(S\)-unit is a function field element which is a unit in every valuation ring, except possibly those given by the places in \(S\). Note that in the literature \(S\) is sometimes taken to be a set of valuations instead. In that case, an \(S\)-unit is an element whose valuation is zero everywhere, except possibly at the valuations in \(S\). It follows from Theorem~\ref{thm:valuation-properties} that these definitions are equivalent.
+
+In the rational function field \(k(x)\) an element \(f\) is an \(S\)-unit if it is composed of only the irreducible monic polynomials corresponding to the places in \(S\). In general, an element \(f \in K\) is an \(S\)-unit if its divisor \((f)\) has non-zero coefficients only for the places in \(S\). Therefore, intuitively it might said that an \(S\)-unit is an element that is ``constructed'' using only the places in \(S\).
+
+Given a set of places \(S\) we consider equations of the form
+\begin{equation}
+  \label{eq:s-unit-sum}
+  \gamma_{1} + \gamma_{2} + \gamma_{3} = 0,
+\end{equation}
+where \(\gamma_{1}, \gamma_{2}, \gamma_{3} \in K\) are \(S\)-units. If we take \(\phi = -\gamma_{1} / \gamma_{3}\) and \(\psi = -\gamma_{2} / \gamma_{3}\) then \(\phi\) and \(\psi\) are \(S\)-units and
+\begin{equation}
+  \label{eq:s-unit-equation}
+  \phi + \psi = 1.
+\end{equation}\todo{Reevaluate whether these equations should be labelled.}
+This is the standard \(S\)-unit equation.
+
+In solving the \(S\)-unit equation, the following property of function field elements turns out to be of importance.
+
+\begin{definition}%
+  \label{def:height}
+  The height of \(f \in K\) is defined as
+  \[H(f) := - \sum_{P \in \mathbb{P}_{K}} \min{\left\{ 0, v_{P}(f) \cdot \deg{P} \right\}}.\]
+\end{definition}
+
+Effectively this definition says that the height of \(f \in K\) is the magnitude of the sum of all negative coefficients in the divisor \((f)\). Theorem~\ref{thm:principal-divisor-degree-zero} says that the negative and positive coefficients in \((f)\) cancel out, so we can also write
+\[H(f) = \sum_{P \in \mathbb{P}_{K}} \max{\left\{ 0, v_{P}(f) \cdot \deg{P} \right\}}.\]
+
+The core result that allows the \(S\)-unit equation to be solved is that the height of solutions is bounded. More precisely, for certain function fields \(K/k(x)\) with a base field \(k\) of characteristic \(p > 0\) we have the following important theorem.
+
+\begin{theorem}%
+  \label{thm:height-bound}
+  Consider a finite set \(S \subset \mathbb{P}_{K}\) and \(S\)-units \(\gamma_{1}, \gamma_{2}, \gamma_{3}\) satisfying
+  \[\gamma_{1} + \gamma_{2} + \gamma_{3} = 0.\]
+  Then we either have that \(\gamma_{1}/\gamma_{3}\) is a \(p\)th power in \(K\), or
+  \[H\left(\frac{\gamma_{1}}{\gamma_{3}}\right) \leq 2g_{K} - 2 + \sum_{P \in S} \deg{P}.\]
+\end{theorem}
+
+This was first shown by Mason~\cite{mason-1984-diophantine-equations-over} for function fields \(K / k(x)\) where \(k\) is algebraically closed. In this case, the result also holds when \(p = 0\), and instead of a \(p\)th power in \(K\) the ratio \(\gamma_{1}/\gamma_{3}\) is either a constant in \(k\) or bounded. Later, Ga\'{a}l and Pohst~\cite{gaal-2006-diophantine-equations-over} expanded this result to function fields over finite fields, so \(k = \mathbb{F}_{q}\) where \(q = p^{n}\) for some prime \(p\).\todo{The aside about the characteristic zero case breaks the flow. Perhaps move that into the theorem.}
