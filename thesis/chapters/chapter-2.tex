@@ -113,8 +113,9 @@ Perhaps unsurprisingly, something similar holds true in any function field \(K\)
   The \textit{degree} of a divisor \({D = \sum n_{P}P}\) is
   \[\deg{D} := \sum_{P \in \mathbb{P}_{K}} n_{P} \cdot \deg{P}.\]
   For a non-zero element \(f \in K\) we associate with it the \textit{principal divisor}
-  \[(f) := \sum_{P \in \mathbb{P}_{K}} v_{P}(f) P.\]\todo{This notation clashes with that used for ideals earlier.}
+  \[(f) := \sum_{P \in \mathbb{P}_{K}} v_{P}(f) P.\]
 \end{definition}
+\todo{This notation clashes with that used for ideals earlier.}
 
 Note that the sum in Definition~\ref{def:divisor} is merely notation. One could equally well choose to write a divisor as a product
 \[D = \prod_{P \in \mathbb{P}_{K}} P^{n_{P}}\]
@@ -139,7 +140,17 @@ It is possible to construct a partial order on the divisor group \(\mathrm{Div}(
   \[\mathcal{L}(D) := \left\{ f \in K \,\middle|\, (f) \geq -D \right\}.\]
 \end{definition}
 
-There are many results related to Riemann-Roch spaces. For our purposes, however, we only need the following two properties.
+Riemann-Roch spaces are involved in many aspects of the theory of algebraic function fields. For example, they allow us to define the following important invariant of a function field.
+
+\begin{definition}%
+  \label{def:genus}
+  The genus of a function field \(K\) is defined as
+  \[g_{K} := \max{\left\{ \deg{D} - \dim{\mathcal{L(D)}} \,\middle|\, D \in \mathrm{Div}(K) \right\}}.\]
+\end{definition}
+
+In order to see that this maximum is well-defined we refer the reader to Proposition 1.4.14 in~\cite{stichtenoth-2009-algebraic-function-fields}.
+
+There are many interesting results related to Riemann-Roch spaces. For our purposes, however, we only need the following two properties.
 
 \begin{theorem}%
   \label{thm:riemann-roch-space-properties}
