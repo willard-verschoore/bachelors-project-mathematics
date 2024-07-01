@@ -1,0 +1,31 @@
+% -*- TeX-master: "../main.tex" -*-
+
+\chapter{Method}%
+\label{chap:method}
+
+This is an introduction to the chapter.
+
+\section{The Algorithm}%
+\label{sec:the-algorithm}
+
+The height bound of Theorem~\ref{thm:height-bound} is the fundamental result that allows the \(S\)-unit equation to be solved algorithmically. For an \(S\)-unit \(f\), we have by definition that \(v_{P}(f) = 0\) for all \(P \notin S\). This means that the height of \(f\) is determined by only the finite set of valuations on \(S\). These valuations are discrete, taking on values in \(\mathbb{Z}\). As a result, there are only a finite number of combinations of values for the valuations on \(S\) satisfying a given height bound. Up to a constant factor, each such combination of values corresponds to a unique \(S\)-unit. In this manner, Theorem~\ref{thm:height-bound} limits the space of solutions to the \(S\)-unit equation to a finite set, thus making it subject to an exhaustive algorithmic search.
+
+In order to determine all \(S\)-units satisfying a given height bound we use the theory of divisors and Riemann-Roch spaces discussed in Section~\ref{sec:divisors-and-riemann-roch-spaces}. Let \(S \subset \mathbb{P}_{K}\) be a finite set of places on the function field \(K\) and let
+\[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P}\]
+be the bound of Theorem~\ref{thm:height-bound}. Given a positive integer \(n \leq N\), we are interested in finding an \(S\)-unit \(f\) such that \(H(f) = n\). Note that the divisor of \(f\) is a formal sum of places in \(S\). More precisely,
+\[(f) = \sum_{P \in S} v_{P}(f) P.\]
+If \(S_{0} \subset S\) denotes the zeros of \(f\) and \(S_{\infty} \subset S\) denotes the poles, then we define the \textit{zero divisor} \({(f)}_{0}\) and the \textit{pole divisor} \({(f)}_{\infty}\) by
+\[{(f)}_{0} := \sum_{P \in S_{0}} v_{P}(f) P \qquad \text{and} \qquad {(f)}_{\infty} := \sum_{P \in S_{\infty}} - v_{P}(f) P.\]
+The requirement that \(H(f) = n\) is then equivalent to saying that \(\deg{{(f)}_{0}} = \deg{{(f)}_{\infty}} = n\).
+
+Reversing this line of reasoning, we are interested in finding integers \(n_{P}\) for \(P \in S\) giving rise to a divisor
+\[D = \sum_{P \in S} n_{P} P\]
+such that \(\deg{D_{0}} = \deg{D_{\infty}} = n\). Here
+\[D_{0} := \sum_{P \in S_{0}} n_{P} P \qquad \text{and} \qquad D_{\infty} := \sum_{P \in S_{\infty}} - n_{P} P,\]
+with \(S_{0} \subset S\) denoting the places where \(n_{P} > 0\) and \(S_{\infty} \subset S\) denoting those where \(n_{P} < 0\). Given such \(n_{P}\), we can construct the Riemann-Roch space \(\mathcal{L}(D)\). Following the discussion of Theorem~\ref{thm:riemann-roch-space-properties}, if \(\dim{\mathcal{L}(D)} = 1\) with the single basis vector \(g \in K\), then we can take \(f = g^{-1}\), and by construction \(f\) is an \(S\)-unit satisfying \(H(f) = n\).
+
+Generating the \(S\)-units \(f\) with \(H(f) \leq N\) can thus be boiled down to finding all combinations of integers \(n_{P}\) for \(P \in S\) such that
+\[\sum_{P \in S_{0}} n_{P} \cdot \deg{P} = \sum_{P \in S_{\infty}} - n_{P} \cdot \deg{P} = n\]
+for all positive integers \(n \leq N\). This is similar to the problem of finding \textit{weak compositions} of \(n\). A weak composition of \(n\) into \(m\) parts is an ordered sequence of nonnegative integers \((x_{1}, x_{2}, \dots, x_{m})\) such that
+\[x_{1} + x_{2} + \cdots + x_{m} = n.\]
+Consider an order on the places \(S\) such that we can write \(S = \{P_{1}, P_{2}, \dots, P_{M}\}\). Then, given two weak compositions \((x_{1}, x_{2}, \dots, x_{m})\) and \((y_{1}, y_{2}, \dots, y_{m'})\) of \(n\) with \(m + m' = M\), we want to choose the \(n_{P}\) such that \(n_{P_{i}} \cdot \deg{P_{i}} = x_{i}\) for \(i \leq m\) and \(n_{P_{j}} \cdot \deg{P_{j}} = -y_{j - m}\) for \(m < j \leq M\). This is possible provided \(\deg{P_{i}} \mid x_{i}\) and \(\deg{P_{j}} \mid y_{j - m}\).
