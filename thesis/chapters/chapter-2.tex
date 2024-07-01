@@ -65,7 +65,13 @@ We note that the integer \(n\) in the second part of Theorem~\ref{thm:place-is-p
   For a place \(P \in \mathbb{P}_{K}\) with a uniformizer \(p\) we construct the function \(v_{P} : K \to \mathbb{Z} \cup \{\infty\}\) by considering for each non-zero \(f \in K\) the unique decomposition \(f = p^{n}u\) as in Theorem~\ref{thm:place-is-principal-ideal} and defining \(v_{P}(f) := n\). Additionally, we define \({v_{P}(0) := \infty}\).
 \end{definition}
 
-The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\) a finite place \(P\) has a uniformizer \(p\) which is an irreducible monic polynomial. For a rational function \(f \in k(x)\) the valuation \(v_{P}\) then counts the number of times \(p\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively.
+The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\) a finite place \(P\) has a uniformizer \(p\) which is an irreducible monic polynomial. For a rational function \(f \in k(x)\) the valuation \(v_{P}\) then counts the number of times \(p\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively. This motivates the following definition.
+
+\begin{definition}%
+  \label{def:zero-and-pole}
+  For a function field element \(f \in K\) a place \(P \in \mathbb{P}_{K}\) is called zero of \(f\) if \(v_{P}(f) > 0\). Alternatively, if \(v_{P}(f) < 0\) then we say that \(P\) is a pole of \(f\).
+\end{definition}
+
 
 Valuations as defined above have many nice properties. The following theorem is a reformulation of Theorem 1.1.13 in~\cite{stichtenoth-2009-algebraic-function-fields}.
 
