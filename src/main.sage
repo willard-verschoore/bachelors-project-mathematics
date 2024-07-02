@@ -16,7 +16,7 @@ class BoundedValues:
 
     def __next__(self):
         self.__next_permutation()
-        return self._permutations[self._permutation]
+        return [x for x in self._permutations[self._permutation]]
 
     def __next_bound(self):
         if self._current_bound + 1 > self._bound:
@@ -79,11 +79,37 @@ def generate_candidates(places, height):
         else:
             candidate = compute_field_element(values, places)
             if candidate is not None:
-                yield candidate
+                yield candidate, values
+
+def compare(vx, vy):
+    for i in range(len(vx)):
+        if vx[i] < vy[i]: return -1
+        if vx[i] > vy[i]: return 1
+    return 0
+
+def is_first_pair(vx, vy):
+    # Ensure consistent ordering of pairs.
+    if compare(vx, vy) > 0: vx, vy = vy, vx
+
+    # Compare to first alternative.
+    vx_alt = [-vx[i] for i in range(len(vx))]
+    vy_alt = [vy[i] - vx[i] for i in range(len(vx))]
+    if compare(vx_alt, vy_alt) > 0: vx_alt, vy_alt = vy_alt, vx_alt
+    if compare(vx + vy, vx_alt + vy_alt) > 0: return False
+
+    # Compare to second alternative.
+    vx_alt = [-vy[i] for i in range(len(vx))]
+    vy_alt = [vx[i] - vy[i] for i in range(len(vx))]
+    if compare(vx_alt, vy_alt) > 0: vx_alt, vy_alt = vy_alt, vx_alt
+    if compare(vx + vy, vx_alt + vy_alt) > 0: return False
+
+    return True
 
 def find_solutions(places, height):
     canditates = generate_candidates(places, height)
-    for [x, y] in Combinations(canditates, 2):
+    for [(x, vx), (y, vy)] in Combinations(canditates, 2):
+        if not is_first_pair(vx, vy): continue
+
         ratio = x.derivative() / y.derivative()
         if not ratio.degree() == 0: continue
 
