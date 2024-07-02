@@ -24,8 +24,65 @@ such that \(\deg{D_{0}} = \deg{D_{\infty}} = n\). Here
 \[D_{0} := \sum_{P \in S_{0}} n_{P} P \qquad \text{and} \qquad D_{\infty} := \sum_{P \in S_{\infty}} - n_{P} P,\]
 with \(S_{0} \subset S\) denoting the places where \(n_{P} > 0\) and \(S_{\infty} \subset S\) denoting those where \(n_{P} < 0\). Given such \(n_{P}\), we can construct the Riemann-Roch space \(\mathcal{L}(D)\). Following the discussion of Theorem~\ref{thm:riemann-roch-space-properties}, if \(\dim{\mathcal{L}(D)} = 1\) with the single basis vector \(g \in K\), then we can take \(f = g^{-1}\), and by construction \(f\) is an \(S\)-unit satisfying \(H(f) = n\).
 
-Generating the \(S\)-units \(f\) with \(H(f) \leq N\) can thus be boiled down to finding all combinations of integers \(n_{P}\) for \(P \in S\) such that
+Generating the \(S\)-units \(f\) with \(H(f) \leq N\) can thus be reduced to finding all combinations of integers \(n_{P}\) for \(P \in S\) such that
 \[\sum_{P \in S_{0}} n_{P} \cdot \deg{P} = \sum_{P \in S_{\infty}} - n_{P} \cdot \deg{P} = n\]
-for all positive integers \(n \leq N\). This is similar to the problem of finding \textit{weak compositions} of \(n\). A weak composition of \(n\) into \(m\) parts is an ordered sequence of nonnegative integers \((x_{1}, x_{2}, \dots, x_{m})\) such that
+for all positive integers \(n \leq N\). This is similar to the problem of finding \textit{integer partitions} of \(n\). An integer partition of \(n\) into \(m\) parts is a decreasing sequence of positive integers \((x_{1}, x_{2}, \dots, x_{m})\) such that
 \[x_{1} + x_{2} + \cdots + x_{m} = n.\]
-Consider an order on the places \(S\) such that we can write \(S = \{P_{1}, P_{2}, \dots, P_{M}\}\). Then, given two weak compositions \((x_{1}, x_{2}, \dots, x_{m})\) and \((y_{1}, y_{2}, \dots, y_{m'})\) of \(n\) with \(m + m' = M\), we want to choose the \(n_{P}\) such that \(n_{P_{i}} \cdot \deg{P_{i}} = x_{i}\) for \(i \leq m\) and \(n_{P_{j}} \cdot \deg{P_{j}} = -y_{j - m}\) for \(m < j \leq M\). This is possible provided \(\deg{P_{i}} \mid x_{i}\) and \(\deg{P_{j}} \mid y_{j - m}\).
+In our case, we need two integer partitions \((x_{1}, x_{2}, \dots, x_{m})\) and \((y_{1}, y_{2}, \dots, y_{m'})\) of \(n\) with \({m + m' \leq |S|}\). Then, for any order on the places \(S\) such that we can write \(S = \{P_{1}, P_{2}, \dots, P_{|S|}\}\) and \(n_{i} := n_{P_{i}}\), we choose the \(n_{i}\) such that \(n_{i} \cdot \deg{P_{i}} = x_{i}\) for \(i \leq m\), \(n_{i} \cdot \deg{P_{i}} = -y_{i - m}\) for \(m < i \leq m'\), and \(n_{i} = 0\) otherwise. This is possible provided \(\deg{P_{i}} \mid x_{i}\) and \(\deg{P_{j}} \mid y_{j - m}\).
+
+In summary, in order to generate all \(S\)-units \(f\) satisfying the height bound \(H(f) \leq N\) we first consider every positive integer \(n \leq N\). For each \(n\) we take all appropriately sized pairs of partitions of \(n\). And for each pair of partitions we consider all permutations of \(S\) leading to integers \(n_{P}\) when matched with the summands in the partitions. Every choice of the \(n_{P}\) corresponds to a divisor and thus a Riemann-Roch space. The \(S\)-unit can then be read from the basis of the Riemann-Roch space, provided the space is of dimension 1.
+
+\begin{algorithm}
+  \caption{This is an algorithm}
+  \begin{algorithmic}[1]
+    \Function{Bounded-S-Units}{$S, N$}
+    \State{$U \gets \{\}$} \Comment{$S$-units found so far.}
+    \For{$n = 1, \dots, N$}
+    \ForAll{$(n_{1}, \dots, n_{|S|}) \in$ \Call{Bounded-Values}{$n, S$}}
+    \State{$D \gets \sum_{i = 1}^{|S|} n_{i} P_{i}$} \Comment{Construct divisor.}
+    \If{$\dim{\mathcal{L}(D) = 1}$}
+    \State{$\{f\} \gets \Call{Basis}{\mathcal{L}(D)}$}
+    \State{$U \gets U \cup f^{-1}$} \Comment{Found a new $S$-unit.}
+    \EndIf{}
+    \EndFor{}
+    \EndFor{}
+    \State{\Return{$U$}}
+    \EndFunction{}
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{This is an algorithm}
+  \begin{algorithmic}[1]
+    \Function{Bounded-Values}{$n, S$}
+    \State{$V \gets \{\}$}
+    \For{$m = 1, \dots, |S| - 1$}
+    \ForAll{$(x_{1}, \dots, x_{m}) \in$ \Call{Partitions}{$n, m$}}
+    \For{$m' = 1, \dots, |S| - m$}
+    \ForAll{$(y_{1}, \dots, y_{m'}) \in$ \Call{Partitions}{$n, m'$}}
+    \For{$i = 1, \dots, m$}
+    \State{$n_{i} \gets x_{i} / \deg{P_{i}}$}
+    \EndFor{}
+    \For{$i = m + 1, \dots, m'$}
+    \State{$n_{i} \gets - y_{i - m} / \deg{P_{i}}$}
+    \EndFor{}
+    \For{$i = m + m' + 1, \dots, |S|$}
+    \State{$n_{i} \gets 0$}
+    \EndFor{}
+    \If{$n_{i} \in \mathbb{Z}\ \text{for all}\ i \in \{1, \dots, |S|\}$}
+    \State{$V \gets V \cup \Call{Permutations}{n_{1}, \dots, n_{|S|}}$}
+    \EndIf{}
+    \EndFor{}
+    \EndFor{}
+    \EndFor{}
+    \EndFor{}
+    \State{\Return{$V$}}
+    \EndFunction{}
+  \end{algorithmic}
+\end{algorithm}
+
+With the ability to generate all \(S\)-units satisfying the height bound of Theorem~\ref{thm:height-bound} it is relatively straightforward to find all solutions to the \(S\)-unit equation. Consider any pair of \(S\)-units \(f, g \in K\). We are interested in finding constants \(a, b \in k\) such that
+\[af + bg = 1.\]
+We we can differentiate this equation to obtain
+\[af' + bg' = 0.\]
+Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are nonzero and these two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solutions exists, it immediately leads to a solution to the \(S\)-unit equation.
