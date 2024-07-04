@@ -60,18 +60,15 @@ In summary, in order to generate all \(S\)-units \(f\) satisfying the height bou
     \ForAll{$(x_{1}, \dots, x_{m}) \in$ \Call{Partitions}{$n, m$}}
     \For{$m' = 1, \dots, |S| - m$}
     \ForAll{$(y_{1}, \dots, y_{m'}) \in$ \Call{Partitions}{$n, m'$}}
-    \For{$i = 1, \dots, m$}
-    \State{$n_{i} \gets x_{i} / \deg{P_{i}}$}
-    \EndFor{}
-    \For{$i = m + 1, \dots, m'$}
-    \State{$n_{i} \gets - y_{i - m} / \deg{P_{i}}$}
-    \EndFor{}
-    \For{$i = m + m' + 1, \dots, |S|$}
-    \State{$n_{i} \gets 0$}
+    \State{$W \gets (\underbrace{x_{1}, \dots, x_{m}, y_{1}, \dots, y_{m}, 0, \dots, 0}_{|S|\ \text{elements}})$}
+    \ForAll{$(n_{1}, \dots, n_{|S|}) \in \Call{Permutations}{W}$}
+    \For{$i = 1, \dots, |S|$}
+    \State{$n_{i} \gets n_{i} / \deg{P_{i}}$}
     \EndFor{}
     \If{$n_{i} \in \mathbb{Z}\ \text{for all}\ i \in \{1, \dots, |S|\}$}
-    \State{$V \gets V \cup \Call{Permutations}{n_{1}, \dots, n_{|S|}}$}
+    \State{$V \gets V \cup (n_{1}, \dots, n_{|S|})$}
     \EndIf{}
+    \EndFor{}
     \EndFor{}
     \EndFor{}
     \EndFor{}
