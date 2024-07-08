@@ -8,7 +8,7 @@ This is an introduction to the chapter.
 \section{The Algorithm}%
 \label{sec:the-algorithm}
 
-The height bound of Theorem~\ref{thm:height-bound} is the fundamental result that allows the \(S\)-unit equation to be solved algorithmically. For an \(S\)-unit \(f\), we have by definition that \(v_{P}(f) = 0\) for all \(P \notin S\). This means that the height of \(f\) is determined by only the finite set of valuations on \(S\). These valuations are discrete, taking on values in \(\mathbb{Z}\). As a result, there are only a finite number of combinations of values for the valuations on \(S\) satisfying a given height bound. Up to a constant factor, each such combination of values corresponds to a unique \(S\)-unit. In this manner, Theorem~\ref{thm:height-bound} limits the space of solutions to the \(S\)-unit equation to a finite set, thus making it subject to an exhaustive algorithmic search.
+The height bound of Theorem~\ref{thm:height-bound} is the fundamental result that allows the \(S\)-unit equation to be solved algorithmically. For an \(S\)-unit \(f\), we have by definition that \(v_{P}(f) = 0\) for all \(P \notin S\). This means that the height of \(f\) is determined by only the finite set of valuations on \(S\). These valuations are discrete, taking on values in \(\mathbb{Z}\). As a result, there are only a finite number of combinations of values for the valuations on \(S\) satisfying a given height bound. Up to a constant factor, each such combination of values corresponds to a unique \(S\)-unit. In this manner, Theorem~\ref{thm:height-bound} limits the space of solutions to the \(S\)-unit equation to a finite set, thus making it approachable by an exhaustive algorithmic search.
 
 In order to determine all \(S\)-units satisfying a given height bound we use the theory of divisors and Riemann-Roch spaces discussed in Section~\ref{sec:divisors-and-riemann-roch-spaces}. Let \(S \subset \mathbb{P}_{K}\) be a finite set of places on the function field \(K\) and let
 \[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P}\]
@@ -80,6 +80,6 @@ In summary, in order to generate all \(S\)-units \(f\) satisfying the height bou
 
 With the ability to generate all \(S\)-units satisfying the height bound of Theorem~\ref{thm:height-bound} it is relatively straightforward to find all solutions to the \(S\)-unit equation. Consider any pair of \(S\)-units \(f, g \in K\). We are interested in finding constants \(a, b \in k\) such that
 \[af + bg = 1.\]
-We we can differentiate this equation to obtain
+We can differentiate this equation to obtain
 \[af' + bg' = 0.\]
 Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are nonzero and these two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solutions exists, it immediately leads to a solution to the \(S\)-unit equation.
