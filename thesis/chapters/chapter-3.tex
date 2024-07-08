@@ -10,7 +10,7 @@ This is an introduction to the chapter.
 
 The height bound of Theorem~\ref{thm:height-bound} is the fundamental result that allows the \(S\)-unit equation to be solved algorithmically. For an \(S\)-unit \(f\), we have by definition that \(v_{P}(f) = 0\) for all \(P \notin S\). This means that the height of \(f\) is determined by only the finite set of valuations on \(S\). These valuations are discrete, taking on values in \(\mathbb{Z}\). As a result, there are only a finite number of combinations of values for the valuations on \(S\) satisfying a given height bound. Up to a constant factor, each such combination of values corresponds to a unique \(S\)-unit. In this manner, Theorem~\ref{thm:height-bound} limits the space of solutions to the \(S\)-unit equation to a finite set, thus making it approachable by an exhaustive algorithmic search.
 
-In order to determine all \(S\)-units satisfying a given height bound we use the theory of divisors and Riemann-Roch spaces discussed in Section~\ref{sec:divisors-and-riemann-roch-spaces}. Let \(S \subset \mathbb{P}_{K}\) be a finite set of places on the function field \(K\) and let
+In order to determine all \(S\)-units satisfying a given height bound we use the theory of divisors and Riemann-Roch spaces discussed in Section~\ref{sec:divisors-and-riemann-roch-spaces}. Let \(S \subset \mathbb{P}_{K}\) be a finite set of places on the function field \(K\), and let
 \[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P}\]
 be the bound of Theorem~\ref{thm:height-bound}. Given a positive integer \(n \leq N\), we are interested in finding an \(S\)-unit \(f\) such that \(H(f) = n\). Note that the divisor of \(f\) is a formal sum of places in \(S\). More precisely,
 \[(f) = \sum_{P \in S} v_{P}(f) P.\]
@@ -30,38 +30,20 @@ for all positive integers \(n \leq N\). This is similar to the problem of findin
 \[x_{1} + x_{2} + \cdots + x_{m} = n.\]
 In our case, we need two integer partitions \((x_{1}, x_{2}, \dots, x_{m})\) and \((y_{1}, y_{2}, \dots, y_{m'})\) of \(n\) with \({m + m' \leq |S|}\). Then, for any order on the places \(S\) such that we can write \(S = \{P_{1}, P_{2}, \dots, P_{|S|}\}\) and \(n_{i} := n_{P_{i}}\), we choose the \(n_{i}\) such that \(n_{i} \cdot \deg{P_{i}} = x_{i}\) for \(i \leq m\), \(n_{i} \cdot \deg{P_{i}} = -y_{i - m}\) for \(m < i \leq m'\), and \(n_{i} = 0\) otherwise. This is possible provided \(\deg{P_{i}} \mid x_{i}\) and \(\deg{P_{j}} \mid y_{j - m}\).
 
-In summary, in order to generate all \(S\)-units \(f\) satisfying the height bound \(H(f) \leq N\) we first consider every positive integer \(n \leq N\). For each \(n\) we take all appropriately sized pairs of partitions of \(n\). And for each pair of partitions we consider all permutations of \(S\) leading to integers \(n_{P}\) when matched with the summands in the partitions. Every choice of the \(n_{P}\) corresponds to a divisor and thus a Riemann-Roch space. The \(S\)-unit can then be read from the basis of the Riemann-Roch space, provided the space is of dimension 1.
+The process of determining the integers \(n_{i}\) is described in Algorithm~\ref{alg:bounded-values}. It considers all appropriately sized pairs of partitions of the bound \(n\). Each pair of partitions then gets merged into a sequence \(v\), which is padded with zeros so that it is of length \(|S|\). The algorithm then evaluates every unique permutation of the integers in \(v\), dividing each integer in the permutation by the degree of the corresponding place. The resulting sequence of values is recorded provided each division resulted in an integer.
 
-\begin{algorithm}
-  \caption{This is an algorithm}
+\begin{algorithm}[htb]
+  \caption{An algorithm for generating all possible values for the valuations of an \(S\)-unit of height \(n\). The provided set of places is assumed to be ordered, and we write \(S = \{P_{1}, P_{2}, \dots, P_{|S|}\}\). The result is a set of sequences of values, with the order of the sequences matching those of the places.}%
+  \label{alg:bounded-values}
   \begin{algorithmic}[1]
-    \Function{Bounded-S-Units}{$S, N$}
-    \State{$U \gets \{\}$} \Comment{$S$-units found so far.}
-    \For{$n = 1, \dots, N$}
-    \ForAll{$(n_{1}, \dots, n_{|S|}) \in$ \Call{Bounded-Values}{$n, S$}}
-    \State{$D \gets \sum_{i = 1}^{|S|} n_{i} P_{i}$} \Comment{Construct divisor.}
-    \If{$\dim{\mathcal{L}(D) = 1}$}
-    \State{$\{f\} \gets \Call{Basis}{\mathcal{L}(D)}$}
-    \State{$U \gets U \cup f^{-1}$} \Comment{Found a new $S$-unit.}
-    \EndIf{}
-    \EndFor{}
-    \EndFor{}
-    \State{\Return{$U$}}
-    \EndFunction{}
-  \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-  \caption{This is an algorithm}
-  \begin{algorithmic}[1]
-    \Function{Bounded-Values}{$n, S$}
-    \State{$V \gets \{\}$}
+    \Function{Bounded-Values}{$S, n$}
+    \State{$V \gets \{\}$} \Comment{Sequences of values found so far.}
     \For{$m = 1, \dots, |S| - 1$}
     \ForAll{$(x_{1}, \dots, x_{m}) \in$ \Call{Partitions}{$n, m$}}
     \For{$m' = 1, \dots, |S| - m$}
     \ForAll{$(y_{1}, \dots, y_{m'}) \in$ \Call{Partitions}{$n, m'$}}
-    \State{$W \gets (\underbrace{x_{1}, \dots, x_{m}, y_{1}, \dots, y_{m}, 0, \dots, 0}_{|S|\ \text{elements}})$}
-    \ForAll{$(n_{1}, \dots, n_{|S|}) \in \Call{Permutations}{W}$}
+    \State{$v \gets (\underbrace{x_{1}, \dots, x_{m}, -y_{1}, \dots, -y_{m}, 0, \dots, 0}_{|S|\ \text{elements}})$}
+    \ForAll{$(n_{1}, \dots, n_{|S|}) \in \Call{Permutations}{v}$}
     \For{$i = 1, \dots, |S|$}
     \State{$n_{i} \gets n_{i} / \deg{P_{i}}$}
     \EndFor{}
@@ -78,7 +60,29 @@ In summary, in order to generate all \(S\)-units \(f\) satisfying the height bou
   \end{algorithmic}
 \end{algorithm}
 
-With the ability to generate all \(S\)-units satisfying the height bound of Theorem~\ref{thm:height-bound} it is relatively straightforward to find all solutions to the \(S\)-unit equation. Consider any pair of \(S\)-units \(f, g \in K\). We are interested in finding constants \(a, b \in k\) such that
+We can run Algorithm~\ref{alg:bounded-values} for the positive integers \(n \leq N\) to generate every sequence of values corresponding to the valuations of a bounded \(S\)-unit. Each sequence of values leads to a divisor and thus to a Riemann-Roch space. The \(S\)-unit can then be read from the basis of the Riemann-Roch space, provided the space is of dimension 1. This process, which generates every bounded \(S\)-unit, is described in Algorithm~\ref{alg:bounded-s-units}.
+
+\begin{algorithm}[htb]
+  \caption{An algorithm for generating all \(S\)-units whose height is bounded by \(N\).}%
+  \label{alg:bounded-s-units}
+  \begin{algorithmic}[1]
+    \Function{Bounded-S-Units}{$S, N$}
+    \State{$U \gets \{\}$} \Comment{$S$-units found so far.}
+    \For{$n = 1, \dots, N$}
+    \ForAll{$(n_{1}, \dots, n_{|S|}) \in$ \Call{Bounded-Values}{$S, n$}}
+    \State{$D \gets \sum_{i = 1}^{|S|} n_{i} P_{i}$} \Comment{Construct divisor.}
+    \If{$\dim{\mathcal{L}(D) = 1}$}
+    \State{$\{f\} \gets \Call{Basis}{\mathcal{L}(D)}$}
+    \State{$U \gets U \cup f^{-1}$} \Comment{Found a new $S$-unit.}
+    \EndIf{}
+    \EndFor{}
+    \EndFor{}
+    \State{\Return{$U$}}
+    \EndFunction{}
+  \end{algorithmic}
+\end{algorithm}
+
+With the ability to generate all \(S\)-units satisfying the height bound of Theorem~\ref{thm:height-bound}, it is relatively straightforward to find all solutions to the \(S\)-unit equation. Consider any pair of \(S\)-units \(f, g \in K\). We are interested in finding constants \(a, b \in k\) such that
 \[af + bg = 1.\]
 We can differentiate this equation to obtain
 \[af' + bg' = 0.\]
