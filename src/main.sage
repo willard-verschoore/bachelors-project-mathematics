@@ -3,13 +3,12 @@ class BoundedValues:
         self._bound = bound
         self._value_count = value_count
 
-        self._current_bound = 0
-        self._positive_partitions = Partitions(0)
+        self._positive_partitions = Partitions(bound, max_length=value_count-1)
         self._positive_partition = 0
-        self._negative_partitions = Partitions(0)
+        self._negative_partitions = Partitions(bound, max_length=value_count-1)
         self._negative_partition = 0
-        self._permutations = Permutations([])
-        self._permutation = 0
+        self._permutations = Permutations([bound, -bound] + [0] * (value_count-2))
+        self._permutation = -1
 
     def __iter__(self):
         return self
@@ -18,17 +17,9 @@ class BoundedValues:
         self.__next_permutation()
         return [x for x in self._permutations[self._permutation]]
 
-    def __next_bound(self):
-        if self._current_bound + 1 > self._bound:
-            raise StopIteration
-
-        self._current_bound += 1
-        self.__reset_positive_partitions()
-
     def __next_positive_partition(self):
         if self._positive_partition + 1 >= self._positive_partitions.cardinality():
-            self.__next_bound()
-            return
+            raise StopIteration
 
         self._positive_partition += 1
         self.__reset_negative_partitions()
@@ -48,14 +39,9 @@ class BoundedValues:
 
         self._permutation += 1
 
-    def __reset_positive_partitions(self):
-        self._positive_partitions = Partitions(self._current_bound, max_length=self._value_count-1)
-        self._positive_partition = 0
-        self.__reset_negative_partitions()
-
     def __reset_negative_partitions(self):
         remaining = self._value_count - len(self._positive_partitions[self._positive_partition])
-        self._negative_partitions = Partitions(self._current_bound, max_length=remaining)
+        self._negative_partitions = Partitions(self._bound, max_length=remaining)
         self._negative_partition = 0
         self.__reset_permutations()
 
@@ -105,25 +91,26 @@ def is_first_pair(vx, vy):
 
     return True
 
-def find_solutions(places, height):
-    canditates = generate_candidates(places, height)
-    for [(x, vx), (y, vy)] in Combinations(canditates, 2):
-        if not is_first_pair(vx, vy): continue
+def find_solutions(places, height_bound):
+    for height in range(1, height_bound + 1):
+        canditates = generate_candidates(places, height)
+        for [(x, vx), (y, vy)] in Combinations(canditates, 2):
+            if not is_first_pair(vx, vy): continue
 
-        ratio = x.derivative() / y.derivative()
-        if not ratio.degree() == 0: continue
+            ratio = x.derivative() / y.derivative()
+            if not ratio.degree() == 0: continue
 
-        determinant = x * y.derivative() - y * x.derivative()
-        if determinant == 0: continue
+            determinant = x * y.derivative() - y * x.derivative()
+            if determinant == 0: continue
 
-        c_1 = y.derivative() / determinant
-        c_2 = -x.derivative() / determinant
-        if not c_1.degree() == 0 or not c_2.degree() == 0: continue
+            c_1 = y.derivative() / determinant
+            c_2 = -x.derivative() / determinant
+            if not c_1.degree() == 0 or not c_2.degree() == 0: continue
 
-        unit_1 = c_1 * x
-        unit_2 = c_2 * y
+            unit_1 = c_1 * x
+            unit_2 = c_2 * y
 
-        yield unit_1, unit_2
+            yield unit_1, unit_2
 
 K.<x> = FunctionField(QQbar)
 O = K.maximal_order()
