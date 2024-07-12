@@ -93,7 +93,7 @@ Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are n
 
 The algorithm presented in Section~\ref{sec:the-algorithm} is effectively a brute force search through the space of bounded \(S\)-units. This is simple to implement, but it is not very efficient since the number of bounded \(S\)-units can quickly grow to be quite large. To see why this is the case, we construct an upper bound on the number of \(S\)-units produced by Algorithm~\ref{alg:bounded-s-units}, depending on the size of the set \(S\) and the height bound \(N\).
 
-First, we note that the number of partitions of the integer \(n\) is given by the \textit{partition function} \(p(n)\). The \textit{restricted partition function} \(p_{m}(n)\) yields the number of partitions of \(n\) into \(m\) parts. There is no known closed-form expression for either function. However, it can be shown that\todo{Citation needed.}
+First, we note that the number of partitions of the integer \(n\) is given by the \textit{partition function} \(p(n)\). The \textit{restricted partition function} \(p_{m}(n)\) yields the number of partitions of \(n\) into \(m\) parts. There is no known closed-form expression for either function. However, it can be shown that (see e.g.~\cite[Theorem 6.3]{andrews-1984-the-theory-of})
 \[p(n) \sim \frac{e^{\pi\sqrt{\frac{2n}{3}}}}{4n\sqrt{3}} \quad \text{as} \quad n \to \infty.\]
 
 Algorithm~\ref{alg:bounded-values} considers all pairs of partitions  of \(n\) into \(m\) and \(m'\) parts with \(m + m' \leq |S|\). The number of such pairs is given by
