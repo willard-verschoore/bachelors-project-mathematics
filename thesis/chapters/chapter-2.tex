@@ -3,7 +3,7 @@
 \chapter{Background}%
 \label{chap:background}
 
-This chapter covers the theoretical background relevant to our work on solving the \(S\)-unit equation on function fields. We consider an arbitrary field \(k\) and we write \(k(x)\) to denote the field fractions of the polynomial ring \(k[x]\). The field \(k(x)\) is called the \textit{rational function field} over \(k\). We have the following definition.
+This chapter covers the theoretical background relevant to our work on solving the \(S\)-unit equation in function fields. We consider an arbitrary field \(k\) and we write \(k(x)\) to denote the field fractions of the polynomial ring \(k[x]\). The field \(k(x)\) is called the \textit{rational function field} over \(k\). We have the following definition.
 
 \begin{definition}%
   \label{def:algebraic-function-field}
@@ -56,16 +56,16 @@ This, again, is a property common to valuation rings and places of all function 
   In a function field \(K / k\), every place \(P \in \mathbb{P}_{K}\) is a principal ideal of \(\mathcal{O}_{P}\). Moreover, for a \(p \in \mathcal{O}_{P}\) such that \(p\mathcal{O}_{p} = P\), we have that any \(f \in K\) can be uniquely written as \(f = p^{n}u\) with \(n \in \mathbb{Z}\) and \(u \in \mathcal{O}_{P}^{\times}\).
 \end{theorem}
 
-An element \(p\) which generates the place \(P\) is called a \textit{uniformizer} of \(P\). In the rational function field \(k(x)\) an irreducible monic polynomial is a uniformizer of its corresponding place.
+An element \(p\) which generates the place \(P\) is called a \textit{uniformizer} of \(P\). In the rational function field \(k(x)\), an irreducible monic polynomial is a uniformizer of its corresponding place.
 
-We note that the integer \(n\) in the second part of Theorem~\ref{thm:place-is-principal-ideal} is unique for a given place \(P \in \mathbb{P}_{K}\) and element \(f \in K\). If \(p\) and \(q\) are distinct uniformizers of \(P\) then we have \(p = qs\) and \(q = pt\) for \(s,t \in \mathcal{O}_{P}\). In fact, \(s,t \in \mathcal{O}_{P}^{\times}\) since \(s = p/q\) and \(t = q/p\) are each other's inverses. It follows that if \(f = p^{n}u\) with \(u \in \mathcal{O}_{P}^{\times}\) then also \(f = q^{n}s^{n}u\) with \(s^{n}u \in \mathcal{O}_{P}^{\times}\). This justifies the following definition.
+We note that the integer \(n\) in the second part of Theorem~\ref{thm:place-is-principal-ideal} is unique for a given place \(P \in \mathbb{P}_{K}\) and element \(f \in K\). If \(p\) and \(q\) are distinct uniformizers of \(P\), then we have \(p = qs\) and \(q = pt\) for \(s,t \in \mathcal{O}_{P}\). In fact, \(s,t \in \mathcal{O}_{P}^{\times}\) since \(s = p/q\) and \(t = q/p\) are each other's inverses. It follows that if \(f = p^{n}u\) with \(u \in \mathcal{O}_{P}^{\times}\) then also \(f = q^{n}s^{n}u\) with \(s^{n}u \in \mathcal{O}_{P}^{\times}\). This justifies the following definition.
 
 \begin{definition}%
   \label{def:valuation}
   For a place \(P \in \mathbb{P}_{K}\) with a uniformizer \(p\) we construct the function \(v_{P} : K \to \mathbb{Z} \cup \{\infty\}\) by considering for each non-zero \(f \in K\) the unique decomposition \(f = p^{n}u\) as in Theorem~\ref{thm:place-is-principal-ideal} and defining \(v_{P}(f) := n\). Additionally, we define \({v_{P}(0) := \infty}\).
 \end{definition}
 
-The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\) a finite place \(P\) has a uniformizer \(p\) which is an irreducible monic polynomial. For a rational function \(f \in k(x)\) the valuation \(v_{P}\) then counts the number of times \(p\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively. This motivates the following definition.
+The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\), a finite place \(P\) has a uniformizer \(p\), which is an irreducible monic polynomial. For a rational function \(f \in k(x)\), the valuation \(v_{P}\) then counts the number of times \(p\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively. This motivates the following definition.
 
 \begin{definition}%
   \label{def:zero-and-pole}
@@ -107,7 +107,7 @@ Valuations as defined above have many nice properties. The following theorem is 
   \end{enumerate}
 \end{theorem}
 
-We note that Definition~\ref{def:valuation} is not the only approach to defining valuations on function fields. It is also possible to define a valuation as a map \(v: K \to \mathbb{Z} \cup \{\infty\}\) that satisfies properties~\ref{prop:valuation-multiplication},~\ref{prop:valuation-addition}, and~\ref{prop:valuation-zero} of Theorem~\ref{thm:valuation-properties}. It can then be shown that for any valuation \(v\) the set \(P = \left\{ f \in K \,\middle|\, v(f) > 0 \right\}\) is a place whose valuation ring is given by \(\mathcal{O}_{P} = \left\{ f \in K \,\middle|\, v(f) \geq 0 \right\}\). It is therefore reasonable to say that places, valuations, and valuations rings are in some sense equivalent. They are all representations of the same underlying structure and one can freely move between each representation.
+We note that Definition~\ref{def:valuation} is not the only approach to defining valuations on function fields. It is also possible to define a valuation as a map \(v: K \to \mathbb{Z} \cup \{\infty\}\) that satisfies properties~\ref{prop:valuation-multiplication},~\ref{prop:valuation-addition}, and~\ref{prop:valuation-zero} of Theorem~\ref{thm:valuation-properties}. It can then be shown that for any valuation \(v\) the set \(P = \left\{ f \in K \,\middle|\, v(f) > 0 \right\}\) is a place whose valuation ring is given by \(\mathcal{O}_{P} = \left\{ f \in K \,\middle|\, v(f) \geq 0 \right\}\). It is therefore reasonable to say that places, valuations, and valuations rings are in some sense equivalent. They are all representations of the same underlying structure, and one can freely move between each representation.
 
 \section{Divisors and Riemann-Roch Spaces}%
 \label{sec:divisors-and-riemann-roch-spaces}
@@ -159,7 +159,7 @@ Riemann-Roch spaces are involved in many aspects of the theory of algebraic func
 \begin{definition}%
   \label{def:genus}
   The genus of a function field \(K / k\) is defined as
-  \[g_{K} := \max{\left\{ \deg{D} - \dim{\mathcal{L(D)}} \,\middle|\, D \in \mathrm{Div}(K) \right\}}.\]
+  \[g_{K} := \max{\left\{ \deg{D} - \dim{\mathcal{L}(D)} + 1 \,\middle|\, D \in \mathrm{Div}(K) \right\}}.\]
 \end{definition}
 
 In order to see that this maximum is well-defined we refer the reader to Proposition 1.4.14 in~\cite{stichtenoth-2009-algebraic-function-fields}. The genus of a function field notably appears the immensely important Riemann-Roch theorem. A discussion of the theorem is outside the scope of this work, however. We refer the reader to Theorem~1.5.15 in~\cite{stichtenoth-2009-algebraic-function-fields} and the surrounding discussion for more details.
@@ -187,7 +187,7 @@ Notably, Theorem~\ref{thm:riemann-roch-space-properties} implies that if we have
 \section{Unit Equations}%
 \label{sec:unit-equations}
 
-The theory discussed in Sections~\ref{sec:places-and-valuations} and~\ref{sec:divisors-and-riemann-roch-spaces} allows to approach the problem central to our work: the \(S\)-unit equation. We first define the concept of an \(S\)-unit.
+The theory discussed in Sections~\ref{sec:places-and-valuations} and~\ref{sec:divisors-and-riemann-roch-spaces} allows us to approach the problem central to our work: the \(S\)-unit equation. We first define the concept of an \(S\)-unit.
 
 \begin{definition}
   Let \(S \subset \mathbb{P}_{K}\) be a finite set of places in a function field \(K / k\). The set of \(S\)-units is given by
@@ -198,7 +198,7 @@ In other words, an \(S\)-unit is a function field element which is a unit in eve
 
 In the rational function field \(k(x)\), an element \(f\) is an \(S\)-unit if it is composed of only the irreducible monic polynomials corresponding to the finite places in \(S\). In general, an element \(f \in K\) is an \(S\)-unit if its divisor \((f)\) has non-zero coefficients only for the places in \(S\). Therefore, intuitively it might be said that an \(S\)-unit is an element that is ``composed'' of only the places in \(S\).
 
-Given a set of places \(S\), we consider equations of the form
+Given an \(S \subset \mathbb{P}_{K}\), we consider equations of the form
 \[\gamma_{1} + \gamma_{2} + \gamma_{3} = 0,\]
 where \(\gamma_{1}, \gamma_{2}, \gamma_{3} \in K\) are \(S\)-units. If we take \(\phi = -\gamma_{1} / \gamma_{3}\) and \(\psi = -\gamma_{2} / \gamma_{3}\) then \(\phi\) and \(\psi\) are \(S\)-units and
 \[\phi + \psi = 1.\]
@@ -226,4 +226,4 @@ The fundamental result that allows the \(S\)-unit equation to be solved is that 
   Here \(K^{p}\) is the set of \(p\)th powers in \(K\) for \(p > 0\) and \(K^{0} = k\).
 \end{theorem}
 
-This was first shown by Mason~\cite[Lemma 10]{mason-1984-diophantine-equations-over} for function fields \(K / k\) where \(k\) is algebraically closed. Later, Ga\'{a}l and Pohst~\cite{gaal-2006-diophantine-equations-over} expanded this result to function fields over finite fields, so \(k = \mathbb{F}_{q}\) where \(q = p^{n}\) and \(p\) is prime.\todo{Ideally, add discussion of proof.}
+This was first shown by Mason~\cite[Lemma 10]{mason-1984-diophantine-equations-over} for function fields \(K / k\) where \(k\) is algebraically closed. Later, Ga\'{a}l and Pohst~\cite{gaal-2006-diophantine-equations-over} expanded this result to function fields over finite fields, so \(k = \mathbb{F}_{q}\) where \(q = p^{n}\) and \(p\) is prime.
