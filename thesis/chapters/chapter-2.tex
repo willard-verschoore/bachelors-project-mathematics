@@ -53,19 +53,19 @@ This, again, is a property common to valuation rings and places of all function 
 
 \begin{theorem}%
   \label{thm:place-is-principal-ideal}
-  In a function field \(K / k\), every place \(P \in \mathbb{P}_{K}\) is a principal ideal of \(\mathcal{O}_{P}\). Moreover, for a \(p \in \mathcal{O}_{P}\) such that \(p\mathcal{O}_{p} = P\), we have that any \(f \in K\) can be uniquely written as \(f = p^{n}u\) with \(n \in \mathbb{Z}\) and \(u \in \mathcal{O}_{P}^{\times}\).
+  In a function field \(K / k\), every place \(P \in \mathbb{P}_{K}\) is a principal ideal of \(\mathcal{O}_{P}\). Moreover, for a \(t \in \mathcal{O}_{P}\) such that \(t\mathcal{O}_{p} = P\), we have that any \(f \in K\) can be uniquely written as \(f = t^{n}u\) with \(n \in \mathbb{Z}\) and \(u \in \mathcal{O}_{P}^{\times}\).
 \end{theorem}
 
-An element \(p\) which generates the place \(P\) is called a \textit{uniformizer} of \(P\). In the rational function field \(k(x)\), an irreducible monic polynomial is a uniformizer of its corresponding place.
+An element \(t\) which generates the place \(P\) is called a \textit{uniformizer} of \(P\). In the rational function field \(k(x)\), an irreducible monic polynomial is a uniformizer of its corresponding place.
 
-We note that the integer \(n\) in the second part of Theorem~\ref{thm:place-is-principal-ideal} is unique for a given place \(P \in \mathbb{P}_{K}\) and element \(f \in K\). If \(p\) and \(q\) are distinct uniformizers of \(P\), then we have \(p = qs\) and \(q = pt\) for \(s,t \in \mathcal{O}_{P}\). In fact, \(s,t \in \mathcal{O}_{P}^{\times}\) since \(s = p/q\) and \(t = q/p\) are each other's inverses. It follows that if \(f = p^{n}u\) with \(u \in \mathcal{O}_{P}^{\times}\) then also \(f = q^{n}s^{n}u\) with \(s^{n}u \in \mathcal{O}_{P}^{\times}\). This justifies the following definition.
+We note that the integer \(n\) in the second part of Theorem~\ref{thm:place-is-principal-ideal} is unique for a given place \(P \in \mathbb{P}_{K}\) and element \(f \in K\). If \(t\) and \(t'\) are distinct uniformizers of \(P\), then we have \(t = t'w'\) and \(t' = tw\) for \(w,w' \in \mathcal{O}_{P}\). In fact, \(w,w' \in \mathcal{O}_{P}^{\times}\) since \(w = t'/t\) and \(w' = t/t'\) are each other's inverses. It follows that if \(f = t^{n}u\) with \(u \in \mathcal{O}_{P}^{\times}\) then also \(f = {t'}^{n}{w'}^{n}u\) with \({w'}^{n}u \in \mathcal{O}_{P}^{\times}\). This justifies the following definition.
 
 \begin{definition}%
   \label{def:valuation}
-  For a place \(P \in \mathbb{P}_{K}\) with a uniformizer \(p\) we construct the function \(v_{P} : K \to \mathbb{Z} \cup \{\infty\}\) by considering for each non-zero \(f \in K\) the unique decomposition \(f = p^{n}u\) as in Theorem~\ref{thm:place-is-principal-ideal} and defining \(v_{P}(f) := n\). Additionally, we define \({v_{P}(0) := \infty}\).
+  For a place \(P \in \mathbb{P}_{K}\) with a uniformizer \(t\) we construct the function \(v_{P} : K \to \mathbb{Z} \cup \{\infty\}\) by considering for each non-zero \(f \in K\) the unique decomposition \(f = t^{n}u\) as in Theorem~\ref{thm:place-is-principal-ideal} and defining \(v_{P}(f) := n\). Additionally, we define \({v_{P}(0) := \infty}\).
 \end{definition}
 
-The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\), a finite place \(P\) has a uniformizer \(p\), which is an irreducible monic polynomial. For a rational function \(f \in k(x)\), the valuation \(v_{P}\) then counts the number of times \(p\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively. This motivates the following definition.
+The function \(v_{P}\) is the \textit{valuation} associated with the place \(P\). As mentioned earlier, in the rational function field \(k(x)\), a finite place \(P\) has a uniformizer \(t\), which is an irreducible monic polynomial. For a rational function \(f \in k(x)\), the valuation \(v_{P}\) then counts the number of times \(t\) divides the numerator and denominator of \(f\), with occurrences in the numerator contributing positively and occurrences in the denominator contributing negatively. This motivates the following definition.
 
 \begin{definition}%
   \label{def:zero-and-pole}
@@ -120,7 +120,7 @@ Perhaps unsurprisingly, something similar holds true in any function field \(K\)
 
 \begin{definition}%
   \label{def:divisor}
-  The divisor group \(\mathrm{Div}(K)\) of a function field \(K\) is the abelian group whose elements are formal sums of the places in \(\mathbb{P}_{K}\). In other words, for a \textit{divisor} \(D \in \mathrm{Div}(K)\) we have
+  The divisor group \(\mathrm{Div}(K)\) of a function field \(K\) is the abelian group whose elements are finite formal sums of the places in \(\mathbb{P}_{K}\). In other words, for a \textit{divisor} \(D \in \mathrm{Div}(K)\) we have
   \[D = \sum_{P \in \mathbb{P}_{K}} n_{P} P,\]
   where \(n_{P} \in \mathbb{Z}\) and \(n_{P} \neq 0\) for finitely many \(P \in \mathbb{P}_{K}\). The addition of two divisors \({D = \sum n_{P}P}\) and \({D' = \sum n_{P}'P}\) is given by
 
@@ -151,7 +151,7 @@ It is possible to construct a partial order on the divisor group \(\mathrm{Div}(
 \begin{definition}%
   \label{def:riemann-roch-space}
   The Riemann-Roch space of a divisor \(D \in \mathrm{Div}(K)\) is defined as
-  \[\mathcal{L}(D) := \left\{ f \in K \,\middle|\, (f) \geq -D \right\} \cup \{0\}.\]
+  \[\mathcal{L}(D) := \left\{ f \in K^{\times} \,\middle|\, (f) \geq -D \right\} \cup \{0\}.\]
 \end{definition}
 
 Riemann-Roch spaces are involved in many aspects of the theory of algebraic function fields. For example, they allow us to define the following important invariant of a function field.
@@ -162,7 +162,15 @@ Riemann-Roch spaces are involved in many aspects of the theory of algebraic func
   \[g_{K} := \max{\left\{ \deg{D} - \dim{\mathcal{L}(D)} + 1 \,\middle|\, D \in \mathrm{Div}(K) \right\}}.\]
 \end{definition}
 
-In order to see that this maximum is well-defined we refer the reader to Proposition 1.4.14 in~\cite{stichtenoth-2009-algebraic-function-fields}. The genus of a function field notably appears the immensely important Riemann-Roch theorem. A discussion of the theorem is outside the scope of this work, however. We refer the reader to Theorem~1.5.15 in~\cite{stichtenoth-2009-algebraic-function-fields} and the surrounding discussion for more details.
+In order to see that this maximum is well-defined we refer the reader to Proposition 1.4.14 in~\cite{stichtenoth-2009-algebraic-function-fields}. The genus of a function field notably appears the immensely important Riemann-Roch theorem.
+
+\begin{theorem}
+  There exists a divisor \(W \in \mathrm{Div}(K)\) (called a \textit{canonical divisor}) such that for every other divisor \(D \in \mathrm{Div}(K)\), the equality
+  \[\dim{\mathcal{L}(D)} - \dim{\mathcal{L}(W - D)} = \deg{D} - g_{K} + 1\]
+  holds. Moreover, the canonical divisor \(W\) is unique up to addition by a principal divisor.
+\end{theorem}
+
+A proper discussion of this theorem is outside the scope of this work. For more information we refer the reader to Section~1.5 in~\cite{stichtenoth-2009-algebraic-function-fields}, which covers the Riemann-Roch Theorem in detail.
 
 There are many interesting results related to Riemann-Roch spaces. For our purposes, however, we only need the following two properties.
 
@@ -184,6 +192,8 @@ The first property corresponds to Lemma 1.4.6 in~\cite{stichtenoth-2009-algebrai
 
 Notably, Theorem~\ref{thm:riemann-roch-space-properties} implies that if we have a divisor \(D\) of degree zero we can construct its Riemann-Roch space \(\mathcal{L}(D)\) to find an element \(f \in K\) such that \((f) = D\). Namely, if \(\dim{\mathcal{L}(D)} = 1\) with the single basis vector \(g \in K\), then by Definition~\ref{def:riemann-roch-space} we have \((g) = -D\), and thus we can take \(f = g^{-1}\). This is an important tool when it comes to solving the \(S\)-unit equation on function fields.
 
+Some computer algebra systems have built-in functionality for determining whether a divisor is principal and can find a generator if it is. For example, Magma~\cite{bosma-1997-the-magma-algebra} has an \textsc{IsPrincipal} function\footnote{\href{https://magma.maths.usyd.edu.au/magma/handbook/text/1393\#15776}{\texttt{magma.maths.usyd.edu.au/magma/handbook/text/1393\#15776}}} which does exactly this. The documentation of this function states that it ``uses the Riemann-Roch space of [the divisor]''. Presumably the Riemann-Roch space is used in a process similar to that described above.
+
 \section{Unit Equations}%
 \label{sec:unit-equations}
 
@@ -196,7 +206,7 @@ The theory discussed in Sections~\ref{sec:places-and-valuations} and~\ref{sec:di
 
 In other words, an \(S\)-unit is a function field element which is a unit in every valuation ring, except possibly those given by the places in \(S\). Note that in the literature \(S\) is sometimes taken to be a set of valuations instead. In that case, an \(S\)-unit is an element whose valuation is zero everywhere, except possibly at the valuations in \(S\). It follows from Theorem~\ref{thm:valuation-properties} that these definitions are equivalent.
 
-In the rational function field \(k(x)\), an element \(f\) is an \(S\)-unit if it is composed of only the irreducible monic polynomials corresponding to the finite places in \(S\). In general, an element \(f \in K\) is an \(S\)-unit if its divisor \((f)\) has non-zero coefficients only for the places in \(S\). Therefore, intuitively it might be said that an \(S\)-unit is an element that is ``composed'' of only the places in \(S\).
+In the rational function field \(k(x)\) with a set \(S \in \mathbb{P}_{K}\) containing the infinite place, an element \(f\) is an \(S\)-unit if it is composed of only the irreducible monic polynomials corresponding to the finite places in \(S\). In general, an element \(f \in K\) is an \(S\)-unit if its divisor \((f)\) has non-zero coefficients only for the places in \(S\). Therefore, intuitively it might be said that an \(S\)-unit is an element that is ``composed'' of only the places in \(S\).
 
 Given an \(S \subset \mathbb{P}_{K}\), we consider equations of the form
 \[\gamma_{1} + \gamma_{2} + \gamma_{3} = 0,\]
@@ -215,15 +225,15 @@ In solving the \(S\)-unit equation, the following property of function field ele
 Essentially, this definition says that the height of \(f \in K\) is the magnitude of the sum of all negative coefficients in the divisor \((f)\). Theorem~\ref{thm:principal-divisor-degree-zero} says that the negative and positive coefficients in \((f)\) cancel out, so we can also write
 \[H(f) = \sum_{P \in \mathbb{P}_{K}} \max{\left\{ 0, v_{P}(f) \cdot \deg{P} \right\}}.\]
 
-The fundamental result that allows the \(S\)-unit equation to be solved is that the height of solutions is bounded. More precisely, for certain function fields we have the following important theorem.
+The fundamental result that allows the \(S\)-unit equation to be solved is that the height of solutions is bounded. More precisely, we have the following important theorem.
 
 \begin{theorem}%
   \label{thm:height-bound}
-  Let \(k\) be a field of characteristic \(p \geq 0\) and \(K / k\) a function field. Consider a finite set \(S \subset \mathbb{P}_{K}\) and \(S\)-units \(\gamma_{1}, \gamma_{2}, \gamma_{3}\) satisfying
+  Let \(k\) be an algebraically closed or finite field of characteristic \(p \geq 0\) and \(K / k\) a function field. Consider a finite set \(S \subset \mathbb{P}_{K}\) and \(S\)-units \(\gamma_{1}, \gamma_{2}, \gamma_{3}\) satisfying
   \[\gamma_{1} + \gamma_{2} + \gamma_{3} = 0.\]
   Then we either have that \(\gamma_{1}/\gamma_{3}\) is an element of \(K^{p}\), or
   \[H\left(\frac{\gamma_{1}}{\gamma_{3}}\right) \leq 2g_{K} - 2 + \sum_{P \in S} \deg{P}.\]
   Here \(K^{p}\) is the set of \(p\)th powers in \(K\) for \(p > 0\) and \(K^{0} = k\).
 \end{theorem}
 
-This was first shown by Mason~\cite[Lemma 10]{mason-1984-diophantine-equations-over} for function fields \(K / k\) where \(k\) is algebraically closed. Later, Ga\'{a}l and Pohst~\cite{gaal-2006-diophantine-equations-over} expanded this result to function fields over finite fields, so \(k = \mathbb{F}_{q}\) where \(q = p^{n}\) and \(p\) is prime.
+This was first shown by Mason~\cite[Lemma 10]{mason-1984-diophantine-equations-over} for function fields \(K / k\) where \(k\) is algebraically closed. Later, Ga\'{a}l and Pohst~\cite{gaal-2006-diophantine-equations-over} expanded this result to function fields over finite fields, so \(k = \mathbb{F}_{q}\) where \(q = p^{n}\) and \(p\) is prime. Silverman~\cite{silverman-1984-the-s-unit-equation} showed that the bound is sharp in the sense that there are function fields where the bound is attained, even for large sets \(S\).

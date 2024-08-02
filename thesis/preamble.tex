@@ -8,6 +8,8 @@
 
 \usepackage{enumitem}
 
+\usepackage{hyperref}
+
 % Bibliography.
 \usepackage[maxbibnames=8]{biblatex}
 \addbibresource{bibliography.bib}
@@ -20,7 +22,8 @@
 \newtheorem{lemma}[theorem]{Lemma}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}{Example}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}

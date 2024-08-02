@@ -33,7 +33,7 @@ In our case, we need two integer partitions \((x_{1}, x_{2}, \dots, x_{m})\) and
 The process of determining the integers \(n_{i}\) is described in Algorithm~\ref{alg:bounded-values}. It considers all appropriately sized pairs of partitions of the bound \(n\). Each pair of partitions gets merged into a sequence \(v\), which is padded with zeros so that it is of length \(|S|\). The algorithm then evaluates every unique permutation of the integers in \(v\), dividing each integer in the permutation by the degree of the corresponding place. The resulting sequence of values is recorded provided each division resulted in an integer.
 
 \begin{algorithm}[htb]
-  \caption{An algorithm for generating all possible values for the valuations of an \(S\)-unit of height \(n\). The provided set of places is assumed to be ordered, and we write \(S = \{P_{1}, P_{2}, \dots, P_{|S|}\}\). The result is a set of sequences of values, with the order of the sequences matching those of the places.}%
+  \caption{An algorithm for generating all possible values for the valuations of an \(S\)-unit of height \(n\). The provided set of places is assumed to be ordered, and we write \(S = \{P_{1}, P_{2}, \dots, P_{|S|}\}\). The result is a set of sequences of values, with the order of the sequences matching those of the places. The existence of a \textsc{Partitions} function which returns all partitions of a given integer into a given number parts is assumed. Similarly, a \textsc{Permutations} function for generating all unique permutations of a sequence is assumed to exist.}%
   \label{alg:bounded-values}
   \begin{algorithmic}[1]
     \Function{Bounded-Values}{$S, n$}
@@ -63,7 +63,7 @@ The process of determining the integers \(n_{i}\) is described in Algorithm~\ref
 We can run Algorithm~\ref{alg:bounded-values} for the positive integers \(n \leq N\) to generate every sequence of values corresponding to the valuations of a bounded \(S\)-unit. Each sequence of values leads to a divisor and thus to a Riemann-Roch space. The \(S\)-unit can then be read from the basis of the Riemann-Roch space, provided the space is of dimension 1. This process, which generates every bounded \(S\)-unit, is described in Algorithm~\ref{alg:bounded-s-units}.
 
 \begin{algorithm}[htb]
-  \caption{An algorithm for generating all \(S\)-units whose height is bounded by \(N\).}%
+  \caption{An algorithm for generating all \(S\)-units whose height is bounded by \(N\). The existence of a \textsc{Basis} function which returns the basis vectors of a vector space is assumed.}%
   \label{alg:bounded-s-units}
   \begin{algorithmic}[1]
     \Function{Bounded-S-Units}{$S, N$}
@@ -84,21 +84,51 @@ We can run Algorithm~\ref{alg:bounded-values} for the positive integers \(n \leq
 
 With the ability to generate all \(S\)-units satisfying the height bound of Theorem~\ref{thm:height-bound}, it is relatively straightforward to find all solutions to the \(S\)-unit equation. Consider any pair of \(S\)-units \(f, g \in K\). We are interested in finding constants \(a, b \in k\) such that
 \[af + bg = 1.\]
-We can differentiate this equation to obtain
+Following the approach of Mason~\cite{mason-1984-diophantine-equations-over}, we differentiate this equation to obtain
 \[af' + bg' = 0.\]
-Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are nonzero and these two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solutions exists, it immediately leads to a solution to the \(S\)-unit equation.
+Here the derivatives are taken with respect to the transcendental variable \(x\) used to generate the rational function field \(k(x)\), over which \(K\) is an extension. Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are nonzero and the two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solution exists, it immediately leads to a solution to the \(S\)-unit equation. Algorithm~\ref{alg:solutions} describes this approach in pseudocode.
+
+\begin{algorithm}[htb]
+  \caption{An algorithm for finding all pairs of \(S\)-units below the height bound of Theorem~\ref{thm:height-bound} solving the \(S\)-unit equation in the function field \(K / k\).}%
+  \label{alg:solutions}
+  \begin{algorithmic}[]
+    \Function{Solutions}{$S, K$}
+    \State{$R \gets \{\}$} \Comment{Solutions found so far.}
+    \State{$N \gets 2g_{K} - 2 + \sum_{P \in S} \deg{P}$} \Comment{Height bound.}
+    \ForAll{$f \in$ \Call{Bounded-S-Units}{$S, N$}}
+    \ForAll{$g \in$ \Call{Bounded-S-Units}{$S, N$}}
+    \State{$\Delta \gets f g' - g f'$} \Comment{Determinant.}
+    \If{$\Delta \neq 0$}
+    \State{$a \gets g' / \Delta$}
+    \State{$b \gets -f' / \Delta$}
+    \If{$a,b \in k$}
+    \State{$R \gets R \cup (af, bg)$} \Comment{Found a new solution.}
+    \EndIf{}
+    \EndIf{}
+    \EndFor{}
+    \EndFor{}
+    \State{\Return{$R$}}
+    \EndFunction{}
+  \end{algorithmic}
+\end{algorithm}
 
 \section{Complexity and Performance}%
 \label{sec:complexity-and-performance}
 
-The algorithm presented in Section~\ref{sec:the-algorithm} is effectively a brute force search through the space of bounded \(S\)-units. This is simple to implement, but it is not very efficient since the number of bounded \(S\)-units can quickly grow to be quite large. To see why this is the case, we construct an upper bound on the number of \(S\)-units produced by Algorithm~\ref{alg:bounded-s-units}, depending on the size of the set \(S\) and the height bound \(N\).
+The algorithm presented in Section~\ref{sec:the-algorithm} is effectively a brute force search through the space of bounded \(S\)-units. This is simple to implement, but it is not very efficient since the number of bounded \(S\)-units can quickly grow to be quite large. To see why this is the case, we construct an upper and lower bound on the number of \(S\)-units produced by Algorithm~\ref{alg:bounded-s-units}, depending on the size of the set \(S\) and the height bound \(N\).
 
 First, we note that the number of partitions of the integer \(n\) is given by the \textit{partition function} \(p(n)\). The \textit{restricted partition function} \(p_{m}(n)\) yields the number of partitions of \(n\) into \(m\) parts. There is no known closed-form expression for either function. However, it can be shown that (see e.g.~\cite[Theorem 6.3]{andrews-1984-the-theory-of})
 \[p(n) \sim \frac{e^{\pi\sqrt{\frac{2n}{3}}}}{4n\sqrt{3}} \quad \text{as} \quad n \to \infty.\]
 
 Algorithm~\ref{alg:bounded-values} considers all pairs of partitions  of \(n\) into \(m\) and \(m'\) parts with \(m + m' \leq |S|\). The number of such pairs is given by
-\[\sum_{m = 1}^{|S| - 1} \left( p_{m}(n) \sum_{m' = 1}^{|S| - m} p_{m'}(n) \right).\]
-This expression is somewhat cumbersome. We can simplify our analysis by ignoring the fact that the partitions in Algorithm~\ref{alg:bounded-values} are restricted. There are of course fewer pairs of restricted partitions than pairs of unrestricted partitions. Therefore, \({p(n)}^{2}\) provides a simple upper bound on the number of pairs considered by the algorithm.
+\[ Z(n) = \sum_{m = 1}^{|S| - 1} \left( p_{m}(n) \sum_{m' = 1}^{|S| - m} p_{m'}(n) \right).\]
+We can obtain a lower bound on this number by noting that the inner sum is never empty, and thus
+\[ Z(n) \geq \sum_{m = 1}^{|S| - 1} p_{m}(n).\]
+In the expression for the height bound \(N\) given by Theorem~\ref{thm:height-bound}, the genus is non-negative and the degree of each place in \(S\) is positive, therefore \(N \geq |S| - 2\). It follows that we need to consider at least all pairs of partitions of \(|S| - 2\) in order to find the solutions to the \(S\)-unit equation. We note that
+\[ Z(|S| - 2) \geq \sum_{m = 1}^{|S| - 1} p_{m}(|S| - 2) = \sum_{m = 1}^{|S| - 2} p_{m}(|S| - 2) = p(|S| - 2),\]
+since \(p_{|S| - 1}(|S| - 2) = 0\) and summing over all restricted partitions functions of \(|S| - 2\) yields the unrestricted partition function. We can conclude that \(p(|S| - 2)\) is a lower bound on the number of bounded \(S\)-units generated by Algorithm~\ref{alg:bounded-s-units}, which already grows faster than any polynomial function in \(|S|\).
+
+This lower bound significantly underestimates the number of bounded \(S\)-units, however. The real number grows much faster. We can obtain an upper bound on its growth by ignoring the fact that the partitions in Algorithm~\ref{alg:bounded-values} are restricted. There are of course fewer pairs of restricted partitions than pairs of unrestricted partitions, so \(Z(n) \leq {p(n)}^{2}\).
 
 Algorithm~\ref{alg:bounded-values} merges each pair of partitions into a sequence of \(|S|\) integers and considers all unique permutations of this sequence. There are at most \(|S|!{}\) unique permutations, so \({p(n)}^{2}|S|!{}\) is an upper bound on the number of sequences produced by Algorithm~\ref{alg:bounded-values}.
 
@@ -112,4 +142,6 @@ Therefore, if \(f + g = 1\), then
 \[H(f) = H(1 - g) \leq H(1) + H(g) = H(g)\]
 and similarly
 \[H(g) = H(1 - f) \leq H(1) + H(f) = H(f).\]
-We can conclude that \(H(f) = H(g)\). As with the previous limits on the number of pairs \(S\)-units, this does not alter the time complexity of the algorithm. However, in practice it noticeably speeds up the search for solutions.
+We can conclude that \(H(f) = H(g)\). As with the previous limits on the number of pairs of \(S\)-units, this does not alter the time complexity of the algorithm. However, in practice it noticeably speeds up the search for solutions.
+
+Including these optimizations, our implementation in SageMath can find all \(S\)-units in \(\bar{\mathbb{Q}}(x)\) for \(|S| = 6\) in an hour when running on a single core of a AMD Ryzen 7 5800X3D processor. Most of the computation time is spent on solving the linear equation for each of the candidate solutions as illustrated in Algorithm~\ref{alg:solutions}. Especially computing the derivatives takes a significant fraction of the time.

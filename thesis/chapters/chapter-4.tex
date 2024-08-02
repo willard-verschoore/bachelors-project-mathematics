@@ -8,21 +8,29 @@ In this chapter we demonstrate the algorithm by applying it to some example prob
 \section{Examples}%
 \label{sec:examples}
 
-To get an impression of the functioning of the Algorithm of Chapter~\ref{chap:method} we consider two examples. First, let \(K = \bar{\mathbb{Q}}(x)\) and
-\[S = \left\{ x, x^{-1}, x - 1, x + 2 \right\}.\]
-Here we use irreducible polynomials to refer to the corresponding places in \(\mathbb{P}_{K}\) and \(x^{-1}\) denotes the infinite place. From Theorem~\ref{thm:height-bound} we obtain the height bound
-\[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P} = 0 - 2 + 4 = 2,\]
-so we are interested in \(S\)-units \(f \in \bar{\mathbb{Q}}(x)\) with \(H(f) = 1\) or \(H(f) = 2\). Our implementation of Algorithm~\ref{alg:bounded-s-units} finds \(54\) such \(S\)-units. By considering each pair of the same height and solving the resulting system of equations as discussed in Section~\ref{sec:the-algorithm} we find all solutions to the \(S\)-unit equation. They are given by
-\[x - (x - 1) = 1, \quad \frac{x + 2}{2} - \frac{x}{2} = 1, \quad \frac{x + 2}{3} - \frac{x - 1}{3} = 1, \quad \frac{3x}{x + 2} - \frac{2(x - 1)}{x + 2} = 1.\]
-Note that each of these solutions is a representative of a group of six solutions as discussed in Section~\ref{sec:complexity-and-performance}.
+To get an impression of the functioning of the Algorithm of Chapter~\ref{chap:method} we consider two examples.
 
-Let us now consider another example where we take \(K = \mathbb{F}_{5}(x)\) and
-\[S = \left\{ x, x^{-1}, x + \bar{2}, x^{2} + x + \bar{1} \right\}.\]
-In this case the height bound becomes
-\[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P} = 0 - 2 + 5 = 3\]
-and Algorithm~\ref{alg:bounded-s-units} finds \(72\) \(S\)-units satisfying this bound. While there are more candidates compared to the previous example, there are only two solutions to the \(S\)-unit equation. They are given by
-\[\frac{\bar{3}}{x}  + \frac{x + \bar{2}}{x} = \bar{1}, \quad \frac{\bar{3}(x^{2} + x + \bar{1})}{x^{2}} + \frac{\bar{3}{(x + \bar{2})}^{2}}{x^{2}} = \bar{1}.\]
-If we include the place corresponding to \(x - \bar{1}\) in \(S\), the height bound increases by one. The number of bounded \(S\)-units grows much more, however. Algorithm~\ref{alg:bounded-s-units} produces \(658\) candidates and we find \(13\) solutions. This illustrates the outsize effect the number of places in \(S\) has on the number of (candidate) solutions.
+\begin{example}%
+  \label{ex:algebraically-closed-field}
+  First, let \(K = \bar{\mathbb{Q}}(x)\) and
+  \[S = \left\{ x, x^{-1}, x - 1, x + 2 \right\}.\]
+  Here we use irreducible polynomials to refer to the corresponding places in \(\mathbb{P}_{K}\) and \(x^{-1}\) denotes the infinite place. From Theorem~\ref{thm:height-bound} we obtain the height bound
+  \[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P} = 0 - 2 + 4 = 2,\]
+  so we are interested in \(S\)-units \(f \in \bar{\mathbb{Q}}(x)\) with \(H(f) = 1\) or \(H(f) = 2\). Our implementation of Algorithm~\ref{alg:bounded-s-units} finds \(54\) such \(S\)-units. By considering each pair of the same height and solving the resulting system of equations as discussed in Section~\ref{sec:the-algorithm} we find all solutions to the \(S\)-unit equation. They are given by
+  \[x - (x - 1) = 1, \quad \frac{x + 2}{2} - \frac{x}{2} = 1, \quad \frac{x + 2}{3} - \frac{x - 1}{3} = 1, \quad \frac{3x}{x + 2} - \frac{2(x - 1)}{x + 2} = 1.\]
+  Note that each of these solutions is a representative of a group of six solutions as discussed in Section~\ref{sec:complexity-and-performance}.
+\end{example}
+
+\begin{example}%
+  \label{ex:finite-field}
+  Let us now consider another example where we take \(K = \mathbb{F}_{5}(x)\) and
+  \[S = \left\{ x, x^{-1}, x + \bar{2}, x^{2} + x + \bar{1} \right\}.\]
+  In this case the height bound becomes
+  \[N = 2g_{K} - 2 + \sum_{P \in S} \deg{P} = 0 - 2 + 5 = 3\]
+  and Algorithm~\ref{alg:bounded-s-units} finds \(72\) \(S\)-units satisfying this bound. While there are more candidates compared to the previous example, there are only two solutions to the \(S\)-unit equation. They are given by
+  \[\frac{\bar{3}}{x}  + \frac{x + \bar{2}}{x} = \bar{1}, \quad \frac{\bar{3}(x^{2} + x + \bar{1})}{x^{2}} + \frac{\bar{3}{(x + \bar{2})}^{2}}{x^{2}} = \bar{1}.\]
+  If we include the place corresponding to \(x - \bar{1}\) in \(S\), the height bound increases by one. The number of bounded \(S\)-units grows much more, however. Algorithm~\ref{alg:bounded-s-units} produces \(658\) candidates and we find \(13\) solutions. This illustrates the outsize effect the number of places in \(S\) has on the number of (candidate) solutions.
+\end{example}
 
 \section{An Application in Matroid Theory}%
 \label{sec:an-application-in-matroid-theory}
@@ -33,11 +41,11 @@ The elements of \(\mathbb{D}\) are all \(p \in \mathbb{Z} \left[ \frac{1}{2} \ri
 
 A partial field can be thought of as a field where the addition of two elements is not always defined. Pairs of elements that can be added are therefore of special interest. Notably, an element \(p \in \mathcal{P}\) such that \(p - 1 \in \mathcal{P}\) is called a \textit{fundament element}. Fundamental elements play an important role the study of partial fields and determining all fundamental elements is often necessary. If we consider a partial field \(\mathcal{P} = (K, \langle S \rangle)\) where \(K\) is a function field and \(\langle S \rangle\) denotes the set of \(S\)-units generated by \(S \subset \mathbb{P}_{K}\), then the problem of finding the fundamental elements of \(\mathcal{P}\) is equivalent to finding all pairs \((f, g) \in K^{2}\) solving the \(S\)-unit equation. The algorithm of Chapter~\ref{chap:method} can therefore be applied to find the fundamental elements of certain partial fields.
 
-For an example application of our algorithm in finding fundamental elements we turn to another generalization of fields called \textit{pastures}. Pastures are a more general category than partial fields; every partial field is a pasture but not every pasture is a partial field. We do not discuss pastures in detail here, for that we refer the reader to the work of Baker and Lorscheid~\cite{baker-2020-foundations-of-matroids}.  For our purposes it is sufficient to know that a pasture can be defined in terms of a partial field and a set of equations of the form
-\[p + q = 1\]
-listing pairs of fundamental elements of the partial field.\todo{Is this true for all or only some pastures?} If all fundamental elements are included in the definition of the pasture, it is itself a partial field.
+For an example application of our algorithm in finding fundamental elements we turn to another generalization of fields called \textit{pastures}. Pastures are a more general category than partial fields; every partial field is a pasture but not every pasture is a partial field. We do not discuss pastures in detail here, for that we refer the reader to the work of Baker and Lorscheid~\cite{baker-2020-foundations-of-matroids}. In essence, the pasture associated with a partial field \((K, G)\) consists of the group \(G\) together with all pairs of elements \((p, q) \in G^{2}\) such that
+\[p + q = 1.\]
+Thus, if \(G = \langle S \rangle\), then a description of the pasture requires a description of all solutions to the \(S\)-unit equation.
 
-Appendix A in the work by Baker et al.~\cite{baker-2023-foundations-of-matroids} contains a number of pastures of this form. For example, section A.3.31 discusses a pasture constructed over the partial field
+Appendix A in the work by Baker et al.~\cite{baker-2024-foundations-of-matroids} contains a number of pastures of this form. For example, section A.3.31 discusses a pasture constructed over the partial field
 \[\mathbb{F}_{1}^{\pm}(x) = \left( \mathbb{Z} \left[ x, x^{-1} \right], \left\langle -1, x, x^{-1}, x -1, 2x - 1, x^{2} + x - 1 \right\rangle \right)\]
 with the equations
 \begin{equation*}
