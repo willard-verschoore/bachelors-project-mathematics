@@ -2,16 +2,27 @@ from sage.all import *
 
 
 class BoundedValues:
-    def __init__(self, bound, value_count):
-        self._bound = bound
+    """
+    A generator for all sequences of values for the valuations of an S-unit.
+    """
+
+    def __init__(self, height_bound, value_count):
+        """
+        Initialize the generator.
+
+        :param bound: The maximum height of the S-unit.
+        :param value_count: The number of places in the set S.
+        """
+
+        self._height_bound = height_bound
         self._value_count = value_count
 
-        self._positive_partitions = Partitions(bound, max_length=value_count - 1)
+        self._positive_partitions = Partitions(height_bound, max_length=value_count - 1)
         self._positive_partition = 0
-        self._negative_partitions = Partitions(bound, max_length=value_count - 1)
+        self._negative_partitions = Partitions(height_bound, max_length=value_count - 1)
         self._negative_partition = 0
         self._permutations = Permutations(
-            [bound, -bound] + [Integer(0)] * (value_count - 2)
+            [height_bound, -height_bound] + [Integer(0)] * (value_count - 2)
         )
         self._permutation = -1
 
@@ -48,7 +59,7 @@ class BoundedValues:
         remaining = self._value_count - len(
             self._positive_partitions[self._positive_partition]
         )
-        self._negative_partitions = Partitions(self._bound, max_length=remaining)
+        self._negative_partitions = Partitions(self._height_bound, max_length=remaining)
         self._negative_partition = 0
         self.__reset_permutations()
 
@@ -63,7 +74,16 @@ class BoundedValues:
         self._permutation = 0
 
 
-def compute_field_element(values, places):
+def compute_field_element(places, values):
+    """
+    Compute a field element corresponding to the divisor given by a set of places and
+    coefficients. If the divisor is not principal, return None.
+
+    :param places: The places in the support of the divisor.
+    :param values: The coefficients of the divisor, multiplied by the degree of the
+                   corresponding place.
+    """
+
     divisor = sum(
         [value // place.degree() * place for value, place in zip(values, places)]
     )
@@ -73,17 +93,31 @@ def compute_field_element(values, places):
 
 
 def generate_candidates(places, height):
+    """
+    Generate all S-units of a given height.
+
+    :param places: The places in the set S.
+    :param height: The height of the S-units.
+    """
+
     for values in BoundedValues(height, len(places)):
         for value, place in zip(values, places):
             if value % place.degree() != 0:
                 break
         else:
-            candidate = compute_field_element(values, places)
+            candidate = compute_field_element(places, values)
             if candidate is not None:
                 yield candidate, values
 
 
 def compare(vx, vy):
+    """
+    Compare two sequences of integers in lexicographic order.
+
+    :param vx: The first sequence.
+    :param vy: The second sequence.
+    """
+
     for i in range(len(vx)):
         if vx[i] < vy[i]:
             return -1
@@ -93,14 +127,22 @@ def compare(vx, vy):
 
 
 def is_first_pair(vx, vy):
-    # Ensure consistent ordering of pairs.
-    if compare(vx, vy) > 0:
+    """
+    Check if a pair of S-units is the first of its group of conjugates. Ordering is
+    based on the lexicographic order of the sequence of values v_P * deg(P) for each
+    place P in the ordered set S.
+
+    :param vx: The sequence of values of the first S-unit.
+    :param vy: The sequence of values of the second S-unit.
+    """
+
+    if compare(vx, vy) > 0:  # Ensure consistent ordering of pairs.
         vx, vy = vy, vx
 
     # Compare to first alternative.
     vx_alt = [-vx[i] for i in range(len(vx))]
     vy_alt = [vy[i] - vx[i] for i in range(len(vx))]
-    if compare(vx_alt, vy_alt) > 0:
+    if compare(vx_alt, vy_alt) > 0:  # Ensure consistent ordering of pairs.
         vx_alt, vy_alt = vy_alt, vx_alt
     if compare(vx + vy, vx_alt + vy_alt) > 0:
         return False
@@ -108,7 +150,7 @@ def is_first_pair(vx, vy):
     # Compare to second alternative.
     vx_alt = [-vy[i] for i in range(len(vx))]
     vy_alt = [vx[i] - vy[i] for i in range(len(vx))]
-    if compare(vx_alt, vy_alt) > 0:
+    if compare(vx_alt, vy_alt) > 0:  # Ensure consistent ordering of pairs.
         vx_alt, vy_alt = vy_alt, vx_alt
     if compare(vx + vy, vx_alt + vy_alt) > 0:
         return False
@@ -117,12 +159,22 @@ def is_first_pair(vx, vy):
 
 
 def find_solutions(places, height_bound):
+    """
+    Find all pairs of S-units up to a given height that solve the S-unit equation.
+
+    :param places: The places in the set S.
+    :param height_bound: The maximum height of the S-units.
+    """
+
     for height in range(1, height_bound + 1):
         canditates = generate_candidates(places, height)
         for [(x, vx), (y, vy)] in Combinations(canditates, 2):
+            # Only consider one of every group of six conjugate pairs.
             if not is_first_pair(vx, vy):
                 continue
 
+            # In order to solve the linear equation the ratio of the derivatives must be
+            # a constant. Improve performance by filtering out failing pairs early.
             ratio = x.derivative() / y.derivative()
             if not ratio.degree() == 0:
                 continue
