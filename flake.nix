@@ -15,8 +15,9 @@
           name = "bachelors-project-mathematics";
           nativeBuildInputs = [ pkgs.bashInteractive ];
           buildInputs = with pkgs; [
-            python3Packages.ipython
-            python3Packages.jupyter
+            black
+            nodejs
+            python3
             sage
             texliveFull
           ];
