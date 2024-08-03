@@ -86,7 +86,7 @@ With the ability to generate all \(S\)-units satisfying the height bound of Theo
 \[af + bg = 1.\]
 Following the approach of Mason~\cite{mason-1984-diophantine-equations-over}, we differentiate this equation to obtain
 \[af' + bg' = 0.\]
-Here the derivatives are taken with respect to the transcendental variable \(x\) used to generate the rational function field \(k(x)\), over which \(K\) is an extension. Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are nonzero and the two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solution exists, it immediately leads to a solution to the \(S\)-unit equation. Algorithm~\ref{alg:solutions} describes this approach in pseudocode.
+Here the derivatives are taken with respect to the transcendental variable \(x\) used to generate the rational function field \(k(x)\), over which \(K\) is an extension. Since \(f\) and \(g\) are \(S\)-units, their derivatives \(f'\) and \(g'\) are non-zero and the two equations form a linear system in the constants \(a\) and \(b\) with at most one solution. Provided a solution exists, it immediately leads to a solution to the \(S\)-unit equation. Algorithm~\ref{alg:solutions} describes this approach in pseudocode.
 
 \begin{algorithm}[htb]
   \caption{An algorithm for finding all pairs of \(S\)-units below the height bound of Theorem~\ref{thm:height-bound} solving the \(S\)-unit equation in the function field \(K / k\).}%
